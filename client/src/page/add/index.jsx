@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import  { useParams } from 'react-router-dom'
 import './index.scss'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -19,8 +20,17 @@ function Add() {
 
   const axiosPostData = async (data) => {
     const res = await axios.post('http://localhost:3000/', data)
-
+    axiosAllData()
   }
+
+  // const {id}=useParams()
+  const axiosDeleteData=async(id)=>{
+    const res =await axios.delete(`http://localhost:3000/${id}`)
+    axiosAllData()
+  }
+
+  
+
 
 
   return (
@@ -70,6 +80,7 @@ function Add() {
               <td><img src={item.src} alt="" /></td>
               <td>{item.name}</td>
               <td>{item.price}</td>
+              <td><button onClick={()=>axiosDeleteData(item._id)}>delete</button></td>
             </tr>
           ))}
         </tbody>
