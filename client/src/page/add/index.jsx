@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import  { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import './index.scss'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
 function Add() {
+  const [searc, setSearc] = useState('')
+  const [sort, setSort] = useState('')
+
   const [product, setProduct] = useState([])
 
   const axiosAllData = async () => {
@@ -24,12 +27,12 @@ function Add() {
   }
 
   // const {id}=useParams()
-  const axiosDeleteData=async(id)=>{
-    const res =await axios.delete(`http://localhost:3000/${id}`)
+  const axiosDeleteData = async (id) => {
+    const res = await axios.delete(`http://localhost:3000/${id}`)
     axiosAllData()
   }
 
-  
+
 
 
 
@@ -65,6 +68,12 @@ function Add() {
       </Formik>
 
       <br />
+      <input type="text" onChange={(e) => setSearc(e.target.value)} />
+
+      <br />
+      <button onClick={()=>setSort({proprety:'price',asc:true})}>artan</button>
+      <button onClick={()=>setSort({proprety:'price',asc:false})}>azalan</button>
+      <button onClick={()=>setSort(null)}>default</button>
       <br />
       <table>
         <thead>
@@ -75,14 +84,25 @@ function Add() {
           </tr>
         </thead>
         <tbody>
-          {product && product.map((item) => (
-            <tr key={item._id}>
-              <td><img src={item.src} alt="" /></td>
-              <td>{item.name}</td>
-              <td>{item.price}</td>
-              <td><button onClick={()=>axiosDeleteData(item._id)}>delete</button></td>
-            </tr>
-          ))}
+          {product && product
+            .filter((x) => x.name.toLowerCase().includes(searc.toLowerCase()))
+            .sort((a,b) => {
+              if (sort && sort.asc===true) {
+                return (a[sort.proprety] > b[sort.proprety]) ? 1 : ((b[sort.proprety] > a[sort.proprety]) ? -1 : 0)
+              }else if (sort && sort.asc===false) {
+                return (a[sort.proprety] < b[sort.proprety]) ? 1 : ((b[sort.proprety] < a[sort.proprety]) ? -1 : 0)
+                
+              }else{return null}
+            })
+            
+            .map((item) => (
+              <tr key={item._id}>
+                <td><img src={item.src} alt="" /></td>
+                <td>{item.name}</td>
+                <td>{item.price}</td>
+                <td><button onClick={() => axiosDeleteData(item._id)}>delete</button></td>
+              </tr>
+            ))}
         </tbody>
       </table>
 
