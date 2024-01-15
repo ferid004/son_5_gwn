@@ -6,13 +6,17 @@ import Home from './page/home'
 import Add from './page/add'
 import Wishlist from './page/wishlist'
 import Detail from './page/detail'
+import { WishlistProvider } from './context/WishlistContext'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <BrowserRouter>
+     <BrowserRouter>
+    <WishlistProvider>
+
+     
         <Routes>
           <Route element={<MainLayout></MainLayout>} path='/'>
             <Route element={<Home></Home>} index></Route>
@@ -21,7 +25,9 @@ function App() {
             <Route element={<Detail></Detail>} path='/detail/:id'></Route>
           </Route>
         </Routes>
-      </BrowserRouter>
+      
+    </WishlistProvider>
+    </BrowserRouter>
     </>
   )
 }
