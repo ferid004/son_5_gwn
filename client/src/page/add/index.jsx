@@ -22,11 +22,15 @@ function Add() {
   }, [])
 
   const axiosPostData = async (data) => {
-    const res = await axios.post('http://localhost:3000/', data)
-    axiosAllData()
+    try {
+      const res = await axios.post('http://localhost:3000/', data)
+      axiosAllData()
+    } catch (error) {
+      console.log(error.response);
+      alert(error.response.data.message)
+    }
   }
 
-  // const {id}=useParams()
   const axiosDeleteData = async (id) => {
     const res = await axios.delete(`http://localhost:3000/${id}`)
     axiosAllData()
@@ -51,6 +55,7 @@ function Add() {
         })}
         onSubmit={(values, { resetForm }) => {
           axiosPostData(values)
+          resetForm()
         }}
       >
         <Form>
@@ -75,7 +80,7 @@ function Add() {
       <button onClick={()=>setSort({proprety:'price',asc:false})}>azalan</button>
       <button onClick={()=>setSort(null)}>default</button>
       <br />
-      <table>
+      <table border={1}>
         <thead>
           <tr>
             <th>img</th>

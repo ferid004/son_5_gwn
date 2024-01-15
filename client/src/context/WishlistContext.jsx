@@ -20,7 +20,6 @@ export const WishlistProvider=({ children }) =>{
         setWishlist,
         handleWishlist,
     }
-    console.log("context",wishlist);
     return (
         <wishlistContext.Provider value={data}>
             {children}
