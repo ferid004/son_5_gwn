@@ -21,9 +21,10 @@ function Product() {
       <div >
       {product && product.map((item)=>(
         <ul key={item._id}>
-          <li>{item.name}</li>
           <li><div><img src={item.src} alt="" /></div></li>
+          <li>{item.name}</li>
           <li>{item.price}</li>
+          <li></li>
         </ul>
       ))}
       </div>
