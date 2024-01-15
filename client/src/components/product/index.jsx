@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import './index.scss'
+import { Link } from 'react-router-dom'
 
 function Product() {
   
@@ -24,7 +25,7 @@ function Product() {
           <li><div><img src={item.src} alt="" /></div></li>
           <li>{item.name}</li>
           <li>{item.price}</li>
-          <li></li>
+          <li><Link to={`/detail/${item._id}`}>view</Link></li>
         </ul>
       ))}
       </div>
